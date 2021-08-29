@@ -6,5 +6,5 @@ Lembre-se: conforme os Termos & Condições de Uso da plataforma, o uso de códi
 
 https://www.urionlinejudge.com.br/judge/en/terms-and-conditions
 
-![image](https://user-images.githubusercontent.com/28737900/131257740-840a4178-93e9-476b-bf89-872b3e8ff8b8.png)
-![image](https://user-images.githubusercontent.com/28737900/131257757-cfb5796a-2d8a-41c2-a976-949a97d50e13.png)
+![image](https://user-images.githubusercontent.com/28737900/131260332-b8308557-acc5-412a-a98b-116e50dad137.png)
+![image](https://user-images.githubusercontent.com/28737900/131260340-fa355382-735a-4c91-9893-a0de72887a5d.png)
