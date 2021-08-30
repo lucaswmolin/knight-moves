@@ -6,11 +6,13 @@ namespace urionlinejudge
 {
     class Program
     {
+        const sbyte ot = 8;
+
         static char[] linha = { '8', '7', '6', '5', '4', '3', '2', '1' };
 
         static char[] coluna = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h' };
 
-        static byte[,] partida = { { 0, 0, 0, 0, 0, 0, 0, 0 },
+        static sbyte[,] partida = { { 0, 0, 0, 0, 0, 0, 0, 0 },
                                   { 0, 0, 0, 0, 0, 0, 0, 0 },
                                   { 0, 0, 0, 0, 0, 0, 0, 0 },
                                   { 0, 0, 0, 0, 0, 0, 0, 0 },
@@ -19,24 +21,13 @@ namespace urionlinejudge
                                   { 0, 0, 0, 0, 0, 0, 0, 0 },
                                   { 0, 0, 0, 0, 0, 0, 0, 0 } };
 
-        static int[] queueX = new int[4096];
-        static int[] queueY = new int[4096];
-        static int[] queueN = new int[4096];
+        static sbyte[] queueX = new sbyte[4096];
+        static sbyte[] queueY = new sbyte[4096];
+        static sbyte[] queueN = new sbyte[4096];
 
-        static void Restart()
+        static sbyte ObterLinha(char c)
         {
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    partida[i, j] = 0;
-                }
-            }
-        }
-
-        static int ObterLinha(char c)
-        {
-            for (int i = 0; i < 8; i++)
+            for (sbyte i = 0; i < ot; i++)
             {
                 if (linha[i] == c)
                 {
@@ -47,9 +38,9 @@ namespace urionlinejudge
             throw new Exception("Esta linha não existe no tabuleiro de xadrez.");
         }
 
-        static int ObterColuna(char c)
+        static sbyte ObterColuna(char c)
         {
-            for (int i = 0; i < 8; i++)
+            for (sbyte i = 0; i < ot; i++)
             {
                 if (coluna[i] == c)
                 {
@@ -60,12 +51,12 @@ namespace urionlinejudge
             throw new Exception("Esta coluna não existe no tabuleiro de xadrez.");
         }
 
-        static int BFS(int l, int c)
+        static sbyte BFS(sbyte l, sbyte c)
         {
             int pf = 1;
             int tf = 0;
 
-            int n;
+            sbyte n;
 
             queueX[0] = l;
             queueY[0] = c;
@@ -85,76 +76,100 @@ namespace urionlinejudge
                 {
                     continue;
                 }
-                else if (partida[l, c] == 2)
+                else
                 {
                     return n;
                 }
 
-                if (l - 2 > -1 && l - 2 < 8)
+                n++;
+
+                l -= 2;
+                if (l > -1 && l < ot)
                 {
-                    if (c - 1 > -1 && c - 1 < 8)
+                    c--;
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l - 2;
-                        queueY[pf] = c - 1;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
 
-                    if (c + 1 > -1 && c + 1 < 8)
+                    c += 2;
+
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l - 2;
-                        queueY[pf] = c + 1;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
+                    c--;
                 }
+                l += 2;
 
-                if (l + 2 > -1 && l + 2 < 8)
+                l += 2;
+                if (l > -1 && l < ot)
                 {
-                    if (c - 1 > -1 && c - 1 < 8)
+                    c--;
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l + 2;
-                        queueY[pf] = c - 1;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
 
-                    if (c + 1 > -1 && c + 1 < 8)
+                    c += 2;
+
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l + 2;
-                        queueY[pf] = c + 1;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
+                    c--;
                 }
+                l -= 2;
 
-                if (l - 1 > -1 && l - 1 < 8)
+                l--;
+                if (l > -1 && l < ot)
                 {
-                    if (c - 2 > -1 && c - 2 < 8)
+                    c -= 2;
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l - 1;
-                        queueY[pf] = c - 2;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
 
-                    if (c + 2 > -1 && c + 2 < 8)
+                    c += 4;
+
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l - 1;
-                        queueY[pf] = c + 2;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
+                    c -= 2;
                 }
+                l++;
 
-                if (l + 1 > -1 && l + 1 < 8)
+                l++;
+                if (l > -1 && l < ot)
                 {
-                    if (c - 2 > -1 && c - 2 < 8)
+                    c -= 2;
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l + 1;
-                        queueY[pf] = c - 2;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
 
-                    if (c + 2 > -1 && c + 2 < 8)
+                    c += 4;
+
+                    if (c > -1 && c < ot)
                     {
-                        queueX[pf] = l + 1;
-                        queueY[pf] = c + 2;
-                        queueN[pf++] = n + 1;
+                        queueX[pf] = l;
+                        queueY[pf] = c;
+                        queueN[pf++] = n;
                     }
                 }
             }
@@ -173,7 +188,7 @@ namespace urionlinejudge
 
                 char[] pf = e[1].ToCharArray();
 
-                int r = 0;
+                sbyte r = 0;
 
                 if (pi != pf)
                 {
@@ -184,7 +199,13 @@ namespace urionlinejudge
 
                 Console.WriteLine("To get from " + e[0] + " to " + e[1] + " takes " + r.ToString() + " knight moves.");
 
-                Restart();
+                for (sbyte i = 0; i < ot; i++)
+                {
+                    for (sbyte j = 0; j < ot; j++)
+                    {
+                        partida[i, j] = 0;
+                    }
+                }
 
                 es = Console.ReadLine();
             }
